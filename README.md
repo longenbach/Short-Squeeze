@@ -11,12 +11,11 @@
 - MAC = Macerich Co
 - SPWR = SunPower Corporation
 
-## Short Interest vs. Public Availability
-![Plot 1](img/P2.png)
-
-
 ## Short Interest Change vs. Short Interest 
-![Plot 2](img/P1.png)
+![Plot 1](img/P1.png)
+
+## Short Interest vs. Public Availability
+![Plot 2](img/P2.png)
 
 ### Definitions
 
