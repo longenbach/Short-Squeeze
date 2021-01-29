@@ -20,7 +20,8 @@
 ## Short Interest vs. Public Availability
 ![Plot 2](img/P2.png)
 
-### Definitions
+### Definitions:
+[WSJ Markets](https://www.wsj.com/market-data/quotes/SPWR)
 
 ![Def 1](img/Def.png)
 ![Def 2](img/Def2.png)
