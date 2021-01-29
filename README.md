@@ -1,4 +1,4 @@
-# Main Street vs. Wall Street
+# Wall Street vs. Main Street
 
 ### GME and others have heavy outstanding short positions. 
 - AMC = AMC Entertainment Holdings Inc
@@ -12,13 +12,13 @@
 - SPWR = SunPower Corporation
 
 ## Short Interest vs. Public Availability
-![Plot 1](P1.png)
+![Plot 1](img/P1.png)
 
 
 ## Short Interest Change vs. Short Interest 
-![Plot 2](P2.png)
+![Plot 2](img/P2.png)
 
 ### Definitions
 
-![Def 1](Def.png)
-![Def 2](Def2.png)
+![Def 1](img/Def.png)
+![Def 2](img/Def2.png)
