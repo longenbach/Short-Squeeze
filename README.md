@@ -11,7 +11,7 @@
 - MAC = Macerich Co
 - SPWR = SunPower Corporation
 
-![Jimmy](img/Jimmy.png)
+![Jimmy](img/JimmyCarter.png)
 (img/P1.png)
 [Jimmy Carter's Solar Panels](https://www.treehugger.com/whatever-happened-jimmy-carters-solar-panels-sequel-4858031)
 
