@@ -27,7 +27,7 @@ PercentofFloat = str_split(str_split(dat_split[[11]], "Percent of Float")[[1]],"
 # http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download
 # http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NYSE&render=download
 
-setwd("/Users/shlong/desktop/ShortSqueeze")
+setwd("/Users/shlong/desktop/Short-Squeeze")
 
 NYSE = read.csv("nasdaq_screener_1611857427822.csv")
 NASDAQ = read.csv("nasdaq_screener_1611857411887.csv")
@@ -94,11 +94,11 @@ df_total2$Public_Float =  PF * df_total2$PublicFloat
 df_total2$Shares_Sold_Short = SSS * df_total2$SharesSoldShort
 
 ## WRITE CSV:
-write.csv(df_total2,file = "ShortInterest.csv")
+# write.csv(df_total2,file = "ShortInterest_Feb25th.csv")
 
 ## LOAD CSV & PLOT:
-setwd("/Users/shlong/desktop/ShortSqueeze")
-df_total2 = read.csv("ShortInterest.csv",index=FALSE)
+setwd("/Users/shlong/desktop/Short-Squeeze")
+df_total2 = read.csv("ShortInterest_Feb25th.csv")
 
 library(ggplot2)
 library(dplyr)
@@ -108,7 +108,14 @@ df_total2 %>%
   filter(vun < 5) %>% 
   ggplot(aes(x= Public_Float / Shares_Outstanding, y = Shares_Sold_Short / Public_Float, label = Ticker)) + 
   geom_text() 
-  
+
+df_total2 %>% 
+  mutate( vun = Public_Float / Shares_Outstanding) %>% 
+  filter(vun < 5) %>% 
+  ggplot(aes(x= Public_Float / Shares_Outstanding, y = Shares_Sold_Short / Public_Float, label = Ticker)) + 
+  geom_text() 
+
+## Plot 1:
 df_total2 %>% 
   mutate( vun = Public_Float / Shares_Outstanding) %>% 
   filter(vun < 1) %>% 
@@ -118,12 +125,59 @@ df_total2 %>%
   scale_colour_manual(values=c("navyblue")) + 
   theme(legend.position = "none") 
 
+## Plot 2:
 df_total2 %>% 
   mutate( vun = Public_Float / Shares_Outstanding) %>% 
-  filter(ChangefromLast < 500) %>% 
-  filter(vun < 1) %>% 
+  filter(ChangefromLast < 750) %>% 
+  #filter(vun < 1) %>% 
   ggplot(aes(x= ChangefromLast, y = (Shares_Sold_Short / Public_Float) *100, label = Ticker, color = ChangefromLast)) + 
   geom_text(size = 5) +
   labs(y = "Short Interest = (Shares Sold Short / Public Float) %", x = "Percentage change in Short Interest from the Previous Report")  + 
   theme(legend.position = "none")
  
+## Plot3 
+library(GGally)
+setwd("/Users/shlong/desktop/Short-Squeeze")
+df_total0 = read.csv("ShortInterest.csv") #1/15/2021
+df_total2 = read.csv("ShortInterest_Feb25th.csv") #2/12/2021
+
+data_par = df_total2 %>% 
+  merge(df_total0,by="Ticker") %>%
+  mutate(  Short_Interest_Feb = ((Shares_Sold_Short.x / Public_Float.x) *100) ) %>%
+  mutate(  Short_Interest_Jan = ((Shares_Sold_Short.y / Public_Float.y) *100) ) %>% 
+  select(c("Ticker","Short_Interest_Jan","Short_Interest_Feb")) %>% 
+  arrange(desc(Short_Interest_Feb)) %>% 
+  head(500)
+
+write.csv(data_par,file = "ShortInterest_Chg_JantoFeb.csv")
+
+
+ggparcoord(data_par,
+           columns = 2:3,groupColumn = 1,
+           showPoints = TRUE, 
+           title = "Parallel Coordinate Plot for the Iris Data",
+           alphaLines = 0.3
+)
+
+
+## Checks
+
+df_total2$PFdivSO = df_total2$Public_Float / df_total2$Shares_Outstanding
+
+df_total2 %>% 
+  mutate(cutoff = PFdivSO < 1.0000001) %>% 
+  group_by(cutoff) %>% 
+  summarise(n())
+
+df_total2 %>% 
+  mutate(cutoff = ch< 1.0000001) %>% 
+  group_by(cutoff) %>% 
+  summarise(n())
+
+length(na.omit(df_total2$PFdivSO))
+
+df_total2 %>% 
+  mutate( vun = Public_Float / Shares_Outstanding) %>% 
+  filter(vun < 5) %>% 
+  ggplot() + 
+  geom_histogram(aes(x= Public_Float / Shares_Outstanding),bins=100)
